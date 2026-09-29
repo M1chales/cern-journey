@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Το τριήμερό μου στο CERN</title>
+<meta name="description" content="An interactive journey through CERN — particles, accelerators, detectors and the physics I learned there.">
+<meta name="theme-color" content="#04060f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="assets/icons/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CERN Journey">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&family=Inter:wght@400;500;600;700&family=Manrope:wght@500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script>
+  (function () {
+    var l = null;
+    try { l = localStorage.getItem('lang'); } catch (e) {}
+    if (!l) l = 'el';
+    document.documentElement.lang = l;
+  })();
+</script>
+</head>
+<body>
+
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="sweep" aria-hidden="true"></div>
+
+<!-- ============ INTRO ============ -->
+<div id="intro" class="intro">
+  <canvas id="introCanvas"></canvas>
+  <div class="intro-ui">
+    <div class="intro-logo">
+      <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="44" /><circle cx="60" cy="60" r="28" /><path d="M16 60h88" /></svg>
+    </div>
+    <p class="intro-kicker"><t-en>An interactive journey</t-en><t-el>Ένα διαδραστικό ταξίδι</t-el></p>
+    <button class="btn btn-primary intro-go" id="introGo">
+      <span class="pulse-dot"></span>
+      <t-en>Inject the beam</t-en><t-el>Ξεκίνα τη δέσμη</t-el>
+    </button>
+    <p class="intro-status" id="introStatus"></p>
+  </div>
+  <button class="intro-skip" id="introSkip"><t-en>Skip</t-en><t-el>Παράλειψη</t-el> →</button>
+</div>
+
+<!-- ============ TOP BAR ============ -->
+<header class="topbar">
+  <a class="brand" href="#home" aria-label="Home">
+    <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"/><circle cx="20" cy="20" r="8"/><circle class="orbit-dot" cx="34" cy="20" r="2.4"/></svg>
+    <span>CERN<b>/</b><t-en>Journey</t-en><t-el>Ταξίδι</t-el></span>
+  </a>
+  <div class="chapter-title" id="chapterTitle"></div>
+  <div class="top-actions">
+    <button class="chip-btn" id="installBtn" hidden>
+      <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
+      <t-en>Install</t-en><t-el>Εγκατάσταση</t-el>
+    </button>
+    <button class="lang-btn" id="langBtn" aria-label="Change language"><span data-code="en">EN</span><span data-code="el">ΕΛ</span></button>
+    <button class="menu-btn" id="menuBtn" aria-label="All chapters">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="4" r="1.8" class="fill"/><circle cx="20" cy="12" r="1.8" class="fill"/><circle cx="12" cy="20" r="1.8" class="fill"/><circle cx="4" cy="12" r="1.8" class="fill"/></svg>
+    </button>
+  </div>
+  <div class="progress"><i id="progressBar"></i></div>
+</header>
+
+<!-- ============ MENU (the ring) ============ -->
+<nav class="menu" id="menu" aria-hidden="true">
+  <div class="menu-inner">
+    <div class="menu-ring-wrap"><svg class="menu-ring" id="menuRing" viewBox="0 0 400 400"></svg></div>
+    <ol class="menu-list" id="menuList"></ol>
+  </div>
+  <button class="menu-close" id="menuClose" aria-label="Close">×</button>
+</nav>
+
+<main id="chapters">
+
+<!-- =====================================================
+     01 HOME
+====================================================== -->
+<section class="chapter chapter-home" data-id="home" data-en="Welcome" data-el="Καλωσόρισμα">
+  <canvas id="heroCanvas" class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="inner hero">
+    <p class="eyebrow rv"><t-en>25–27 September 2026 · Geneva</t-en><t-el>25–27 Σεπτεμβρίου 2026 · Γενεύη</t-el></p>
+    <h1 class="hero-title rv" style="--i:1">
+      <t-en>My weekend at</t-en><t-el>Το τριήμερό μου στο</t-el>
+      <span class="grad-text">CERN</span>
+    </h1>
+    <p class="lead rv" style="--i:2">
+      <t-en>What I saw at CERN in three days, and what I understood afterwards: from a sugar cube down to a collision at 13.6 TeV.</t-en>
+      <t-el>Όσα είδα στο CERN σε τρεις μέρες και όσα κατάλαβα μετά: από έναν κύβο ζάχαρης μέχρι μια σύγκρουση στα 13,6 TeV.</t-el>
+    </p>
+    <div class="hero-actions rv" style="--i:3">
+      <a class="btn btn-primary" href="#cern"><t-en>Start the journey</t-en><t-el>Ξεκίνα το ταξίδι</t-el> <span class="arrow">→</span></a>
+      <button class="btn btn-ghost" data-open-menu><t-en>All chapters</t-en><t-el>Όλα τα κεφάλαια</t-el></button>
+    </div>
+    <div class="ticker rv" style="--i:4">
+      <div><b data-count="27">27</b><span>km</span><small><t-en>ring under the ground</t-en><t-el>δακτύλιος κάτω από τη γη</t-el></small></div>
+      <div><b>−271.3</b><span>°C</span><small><t-en>a little colder than deep space (−270.4 °C)</t-en><t-el>πιο κρύο κι από το διάστημα</t-el></small></div>
+      <div><b>99.999999</b><span>% c</span><small><t-en>speed of the protons</t-en><t-el>η ταχύτητα των πρωτονίων</t-el></small></div>
+    </div>
+    <p class="hint rv" style="--i:5">
+      <span class="kbd">←</span><span class="kbd">→</span>
+      <t-en>keys, swipe, or the ring menu to move around</t-en><t-el>βελάκια, σύρσιμο ή το μενού-δακτύλιος για να κινηθείς</t-el>
+    </p>
+    <p class="byline rv" style="--i:6"><t-en>Made by</t-en><t-el>Από</t-el> <span data-author-name></span> · <span data-author-school></span></p>
+  </div>
+</section>
+
+<!-- =====================================================
+     02 CERN IN 60 SECONDS
+====================================================== -->
+<section class="chapter" data-id="cern" data-en="CERN in 60 seconds" data-el="Το CERN σε 60″">
+  <div class="inner">
+    <header class="ch-head">
+      <p class="eyebrow rv"><t-en>Chapter</t-en><t-el>Κεφάλαιο</t-el> 01</p>
+      <h2 class="rv" style="--i:1"><t-en>CERN in <span class="grad-text">60 seconds</span></t-en><t-el>Το CERN σε <span class="grad-text">60 δευτερόλεπτα</span></t-el></h2>
+      <p class="lead rv" style="--i:2">
+        <t-en>The name is French, <em>Conseil Européen pour la Recherche Nucléaire</em>, and the lab sits right on the border: part of it in Switzerland, part in France.</t-en>
+        <t-el>Το όνομα είναι γαλλικό, <em>Conseil Européen pour la Recherche Nucléaire</em>, και το εργαστήριο κάθεται πάνω στα σύνορα: ένα κομμάτι στην Ελβετία, ένα στη Γαλλία.</t-el>
+      </p>
+    </header>
+
+    <div class="grid-2">
+      <div class="card map-card rv" style="--i:3">
+        <svg class="cern-map" viewBox="0 0 500 360" aria-label="Map of CERN">
+          <defs>
+            <radialGradient id="mapGlow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#4cc9f0" stop-opacity=".25"/><stop offset="1" stop-color="#4cc9f0" stop-opacity="0"/></radialGradient>
+          </defs>
+          <path class="lake" d="M500 20 C450 40 420 70 395 110 C380 135 372 160 360 185 C352 200 350 215 358 222 C372 214 385 190 400 168 C425 130 460 95 500 80Z"/>
+          <path class="border" d="M0 250 C60 230 100 260 150 240 C200 220 230 250 270 235 C300 225 330 250 350 230 C365 214 356 190 370 170 C380 150 400 140 420 120"/>
+          <circle cx="220" cy="170" r="150" fill="url(#mapGlow)"/>
+          <circle class="ring lhc" cx="220" cy="170" r="110"/>
+          <circle class="ring sps" cx="268" cy="228" r="44"/>
+          <circle class="beam-dot" r="4"><animateMotion dur="6s" repeatCount="indefinite" path="M330 170 A110 110 0 1 1 110 170 A110 110 0 1 1 330 170"/></circle>
+          <circle class="site" cx="300" cy="258" r="7"/><text x="312" y="276" class="map-label strong">Meyrin (CH)</text>
+          <circle class="site" cx="236" cy="200" r="6"/><text x="226" y="205" class="map-label strong" text-anchor="end">Prévessin (FR)</text>
+          <text x="20" y="40" class="map-label big"><tspan class="en">France</tspan><tspan class="el">Γαλλία</tspan></text>
+          <text x="330" y="330" class="map-label big"><tspan class="en">Switzerland</tspan><tspan class="el">Ελβετία</tspan></text>
+          <text x="410" y="190" class="map-label"><tspan class="en">Geneva</tspan><tspan class="el">Γενεύη</tspan></text>
+          <text x="438" y="60" class="map-label lake-label"><tspan class="en">Lake Geneva</tspan><tspan class="el">Λίμνη Λεμάν</tspan></text>
+          <text x="306" y="78" class="map-label ring-label">LHC · 27 km</text>
+          <text x="150" y="304" class="map-label ring-label">SPS · 7 km</text>
+        </svg>
+        <p class="caption"><t-en>The LHC ring crosses the border eight times per lap — and protons do 11,245 laps every second.</t-en><t-el>Ο δακτύλιος του LHC περνάει τα σύνορα 8 φορές σε κάθε γύρο, και τα πρωτόνια κάνουν 11.245 γύρους το δευτερόλεπτο.</t-el></p>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat rv" style="--i:3"><b data-count="1954">1954</b><span><t-en>CERN is founded</t-en><t-el>ιδρύεται το CERN</t-el></span></div>
+        <div class="stat rv hl" style="--i:4"><b data-count="12">12</b><span><t-en>founding states — Greece is one of them</t-en><t-el>ιδρυτικά κράτη, ανάμεσά τους και η Ελλάδα</t-el></span></div>
+        <div class="stat rv" style="--i:5"><b>24<small>+7</small></b><span><t-en>member + associate states today</t-en><t-el>κράτη-μέλη + συνδεδεμένα μέλη σήμερα</t-el></span></div>
+        <div class="stat rv" style="--i:6"><b data-count="2600" data-prefix="~">~2,600</b><span><t-en>permanent staff</t-en><t-el>μόνιμο προσωπικό</t-el></span></div>
+        <div class="stat rv" style="--i:7"><b data-count="12500" data-prefix=">">&gt;12,500</b><span><t-en>scientists from all over the world use it</t-en><t-el>επιστήμονες απ' όλο τον κόσμο το χρησιμοποιούν</t-el></span></div>
+        <div class="stat rv" style="--i:8"><b>1.2<small>bn CHF</small></b><span><t-en>budget per year</t-en><t-el>προϋπολογισμός τον χρόνο</t-el></span></div>
+      </div>
+    </div>
+
+    <div class="card coffee rv">
+      <div class="coffee-cup" aria-hidden="true">
+        <svg viewBox="0 0 120 100"><path class="steam s1" d="M42 30c-6-8 6-12 0-22"/><path class="steam s2" d="M60 30c-6-8 6-12 0-22"/><path class="steam s3" d="M78 30c-6-8 6-12 0-22"/><path class="cup" d="M22 40h76v18c0 20-16 34-38 34S22 78 22 58z"/><path class="cup" d="M98 48h6a10 10 0 010 20h-8"/></svg>
+      </div>
+      <div>
+        <h3><t-en>Is it expensive?</t-en><t-el>Είναι ακριβό;</t-el></h3>
+        <p><t-en>1.2 billion francs a year sounds like a lot. Divided among everyone living in the member states, it works out at about <strong>one coffee per person per year</strong>.</t-en>
+        <t-el>Τα 1,2 δισεκατομμύρια φράγκα τον χρόνο ακούγονται πολλά. Αν μοιραστούν σε όλους τους κατοίκους των κρατών-μελών, βγαίνει περίπου <strong>ένας καφές τον χρόνο ανά άτομο</strong>.</t-el></p>
+      </div>
+    </div>
+
+    <h3 class="section-title rv"><t-en>Three things it does</t-en><t-el>Τρία πράγματα που κάνει</t-el></h3>
+    <div class="grid-3">
+      <div class="card feature rv" style="--i:1">
+        <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16"/><circle cx="18" cy="12" r="1.6" class="fill"/></svg></div>
+        <h4><t-en>Builds the machines</t-en><t-el>Φτιάχνει τις μηχανές</t-el></h4>
+        <p><t-en>Accelerators and detectors, many of them designed at CERN itself.</t-en><t-el>Επιταχυντές και ανιχνευτές, πολλοί σχεδιασμένοι στο ίδιο το CERN.</t-el></p>
+      </div>
+      <div class="card feature rv" style="--i:2">
+        <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg></div>
+        <h4><t-en>Asks what things are made of</t-en><t-el>Ρωτάει από τι είναι φτιαγμένα όλα</t-el></h4>
+        <p><t-en>Not planets or cells: the pieces everything else is built from.</t-en><t-el>Όχι πλανήτες ή κύτταρα: τα κομμάτια από τα οποία φτιάχνονται όλα τα υπόλοιπα.</t-el></p>
+      </div>
+      <div class="card feature rv" style="--i:3">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5"/></svg></div>
+        <h4><t-en>Teaches</t-en><t-el>Διδάσκει</t-el></h4>
+        <p><t-en>Students, PhD candidates, and school groups like ours.</t-en><t-el>Φοιτητές, υποψήφιους διδάκτορες και σχολικές ομάδες σαν τη δική μας.</t-el></p>
+      </div>
+    </div>
+
+    <h3 class="section-title rv"><t-en>What nobody knows yet</t-en><t-el>Όσα δεν ξέρει ακόμα κανείς</t-el></h3>
+    <div class="questions">
+      <div class="q rv" style="--i:1"><span>?</span><t-en>What is dark matter?</t-en><t-el>Τι είναι η σκοτεινή ύλη;</t-el></div>
+      <div class="q rv" style="--i:2"><span>?</span><t-en>What is dark energy?</t-en><t-el>Τι είναι η σκοτεινή ενέργεια;</t-el></div>
+      <div class="q rv" style="--i:3"><span>?</span><t-en>Why is there more matter than antimatter?</t-en><t-el>Γιατί υπάρχει περισσότερη ύλη από αντιύλη;</t-el></div>
+      <div class="q rv" style="--i:4"><span>?</span><t-en>Are there extra dimensions?</t-en><t-el>Υπάρχουν κι άλλες διαστάσεις;</t-el></div>
+    </div>
+    <p class="note rv"><t-en>The way to look for answers is to recreate, for a split second, conditions like those just after the Big Bang. That's what the accelerators are for.</t-en><t-el>Ο τρόπος να ψάξεις απαντήσεις είναι να ξαναφτιάξεις, για ένα κλάσμα του δευτερολέπτου, συνθήκες σαν αυτές αμέσως μετά τη Μεγάλη Έκρηξη. Γι' αυτό υπάρχουν οι επιταχυντές.</t-el></p>
+  </div>
+</section>
+
+<!-- =====================================================
+     03 SCALE
+====================================================== -->
+<section class="chapter" data-id="scale" data-en="How small is small?" data-el="Πόσο μικρό είναι το μικρό;">
+  <div class="inner">
+    <header class="ch-head">
+      <p class="eyebrow rv"><t-en>Chapter</t-en><t-el>Κεφάλαιο</t-el> 02</p>
+      <h2 class="rv" style="--i:1"><t-en>How small is <span class="grad-text">small?</span></t-en><t-el>Πόσο μικρό είναι <span class="grad-text">το μικρό;</span></t-el></h2>
+      <p class="lead rv" style="--i:2"><t-en>Drag the slider (or scroll on the picture) to dive into a sugar cube, all the way down to where CERN looks for answers.</t-en><t-el>Σύρε τη μπάρα (ή κάνε scroll πάνω στην εικόνα) για να βουτήξεις μέσα σε έναν κύβο ζάχαρης, μέχρι εκεί που ψάχνει απαντήσεις το CERN.</t-el></p>
+    </header>
+
+    <div class="card zoom-card rv" style="--i:3">
+      <div class="zoom-stage no-swipe">
+        <canvas id="scaleCanvas"></canvas>
+        <div class="zoom-label">
+          <span class="zoom-size" id="scaleSize">10⁻² m</span>
+          <span class="zoom-name" id="scaleName"></span>
+        </div>
+        <div class="cern-tag" id="cernTag"><t-en>← CERN looks here</t-en><t-el>← Εδώ ψάχνει το CERN</t-el></div>
+      </div>
+      <div class="zoom-controls">
+        <input type="range" id="scaleRange" min="0" max="500" value="0" aria-label="Zoom level">
+        <div class="zoom-steps" id="scaleSteps"></div>
+        <p class="zoom-desc" id="scaleDesc"></p>
+        <div class="logbar">
+          <div class="logbar-track">
+            <span class="zone acc"><t-en>Accelerators</t-en><t-el>Επιταχυντές</t-el></span>
+            <span class="zone mic"><t-en>Microscopes</t-en><t-el>Μικροσκόπια</t-el></span>
+            <span class="zone eye"><t-en>Eyes</t-en><t-el>Μάτια</t-el></span>
+            <i id="logMarker"></i>
+          </div>
+          <div class="logbar-ticks"><span>10⁻¹⁸</span><span>10⁻¹⁵</span><span>10⁻¹²</span><span>10⁻⁹</span><span>10⁻⁶</span><span>10⁻³</span><span>1 m</span></div>
+        </div>
+        <button class="btn btn-small" id="scalePlay"><t-en>Auto-zoom</t-en><t-el>Αυτόματο ζουμ</t-el></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     04 PARTICLES
+====================================================== -->
+<section class="chapter" data-id="particles" data-en="The building blocks" data-el="Τα δομικά υλικά">
+  <div class="inner">
+    <header class="ch-head">
+      <p class="eyebrow rv"><t-en>Chapter</t-en><t-el>Κεφάλαιο</t-el> 03</p>
+      <h2 class="rv" style="--i:1"><t-en>The <span class="grad-text">building blocks</span></t-en><t-el>Τα <span class="grad-text">δομικά υλικά</span></t-el></h2>
+      <p class="lead rv" style="--i:2"><t-en>Seventeen particles, and as far as anyone can tell nothing smaller inside them. Almost everything around you is made of just three: up quarks, down quarks and electrons. Together they form the <strong>Standard Model</strong>.</t-en><t-el>Δεκαεπτά σωματίδια, και απ' όσο ξέρουμε τίποτα μικρότερο μέσα τους. Σχεδόν ό,τι βλέπεις γύρω σου φτιάχνεται από τρία μόνο: κουάρκ up, κουάρκ down και ηλεκτρόνια. Μαζί φτιάχνουν το <strong>Καθιερωμένο Πρότυπο</strong>.</t-el></p>
+    </header>
+
+    <div class="sm-wrap rv" style="--i:3">
+      <div>
+        <div class="sm-legend" id="smLegend">
+          <button data-group="quark"><i></i><t-en>Quarks</t-en><t-el>Κουάρκ</t-el></button>
+          <button data-group="lepton"><i></i><t-en>Leptons</t-en><t-el>Λεπτόνια</t-el></button>
+          <button data-group="boson"><i></i><t-en>Force carriers</t-en><t-el>Φορείς δυνάμεων</t-el></button>
+          <button data-group="higgs"><i></i>Higgs</button>
+        </div>
+        <div class="sm-grid" id="smGrid"></div>
+        <p class="caption"><t-en>+ an antimatter partner for every matter particle</t-en><t-el>+ ένας «δίδυμος» αντιύλης για κάθε σωματίδιο ύλης</t-el></p>
+      </div>
+      <div class="card sm-detail" id="smDetail" aria-live="polite"></div>
+    </div>
+
+    <h3 class="section-title rv"><t-en>Why protons, of all things?</t-en><t-el>Γιατί πρωτόνια;</t-el></h3>
+    <div class="grid-4 family">
+      <div class="card fam rv" style="--i:1"><span class="tag bad"><t-en>decay almost instantly</t-en><t-el>διασπώνται σχεδόν αμέσως</t-el></span><h4><t-en>Bosons</t-en><t-el>Μποζόνια</t-el></h4><p>γ, W, Z, g, H</p></div>
+      <div class="card fam rv" style="--i:2"><span class="tag bad"><t-en>short-lived</t-en><t-el>ζουν ελάχιστα</t-el></span><h4><t-en>Mesons</t-en><t-el>Μεσόνια</t-el></h4><p><t-en>pions, kaons…</t-en><t-el>πιόνια, καόνια…</t-el></p></div>
+      <div class="card fam good rv" style="--i:3"><span class="tag ok"><t-en>structure, and they last</t-en><t-el>έχουν δομή και αντέχουν</t-el></span><h4><t-en>Baryons</t-en><t-el>Βαρυόνια</t-el></h4><p><strong><t-en>proton</t-en><t-el>πρωτόνιο</t-el></strong>, <t-en>neutron…</t-en><t-el>νετρόνιο…</t-el></p></div>
+      <div class="card fam rv" style="--i:4"><span class="tag mid"><t-en>no inner structure</t-en><t-el>χωρίς εσωτερική δομή</t-el></span><h4><t-en>Leptons</t-en><t-el>Λεπτόνια</t-el></h4><p><t-en>electron, neutrino…</t-en><t-el>ηλεκτρόνιο, νετρίνο…</t-el></p></div>
+    </div>
+
+    <div class="card hydrogen rv">
+      <div class="h-atom" id="hAtom">
+        <div class="h-nucleus">p⁺</div>
+        <div class="h-orbit"><div class="h-electron">e⁻</div></div>
+      </div>
+      <div>
+        <h3><t-en>The proton's starting point</t-en><t-el>Από πού ξεκινάει το πρωτόνιο</t-el></h3>
+        <p><t-en>Hydrogen: one proton, one electron. Take the electron away and a bare proton is left, which is exactly what the accelerators need.</t-en><t-el>Από το υδρογόνο: ένα πρωτόνιο κι ένα ηλεκτρόνιο. Αν πάρεις το ηλεκτρόνιο, μένει ένα γυμνό πρωτόνιο, ακριβώς αυτό που χρειάζονται οι επιταχυντές.</t-el></p>
+        <button class="btn btn-small" id="stripBtn"><t-en>Strip the electron</t-en><t-el>Αφαίρεσε το ηλεκτρόνιο</t-el></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     05 ACCELERATORS
+====================================================== -->
+<section class="chapter" data-id="accelerators" data-en="Journey of a proton" data-el="Το ταξίδι ενός πρωτονίου">
+  <div class="inner">
+    <header class="ch-head cx-head">
+      <p class="eyebrow rv"><t-en>Chapter</t-en><t-el>Κεφάλαιο</t-el> 04</p>
+      <h2 class="rv" style="--i:1"><t-en>Journey of a <span class="grad-text">proton</span></t-en><t-el>Το ταξίδι ενός <span class="grad-text">πρωτονίου</span></t-el></h2>
+    </header>
+    <div class="cx rv" style="--i:2" id="cx">
+      <div class="cx-stage no-swipe" id="cxStage">
+        <canvas id="cxCanvas"></canvas>
+
+        <div class="cx-hud">
+          <p class="cx-kicker" id="cxKicker"></p>
+          <h3 class="cx-where" id="cxWhere"></h3>
+          <p class="cx-what" id="cxWhat"></p>
+        </div>
+
+        <div class="cx-read">
+          <div class="cx-e"><span id="cxELabel"></span><b id="cxE">—</b></div>
+          <div class="cx-v"><span>v / c</span><b id="cxV">—</b></div>
+          <div class="cx-next"><span><t-en>Next</t-en><t-el>Επόμενο</t-el></span><b id="cxNext">—</b></div>
+          <p class="cx-real" id="cxReal"></p>
+        </div>
+
+        <aside class="cx-card" id="cxCard" aria-live="polite">
+          <button class="cx-card-x" id="cxCardX" aria-label="Close">×</button>
+          <div id="cxCardBody"></div>
+        </aside>
+
+        <div class="cx-start" id="cxStart">
+          <button class="cx-go" id="cxGo"><span class="cx-go-tri"></span><t-en>Follow the proton</t-en><t-el>Ακολούθησε το πρωτόνιο</t-el></button>
+          <p><t-en>Linac4 → PSB → PS → SPS → LHC → experiments</t-en><t-el>Linac4 → PSB → PS → SPS → LHC → πειράματα</t-el></p>
+        </div>
+
+        <p class="cx-note"><t-en>Simplified model · ring sizes to scale · positions approximate</t-en><t-el>Απλοποιημένο μοντέλο · μεγέθη δακτυλίων σε κλίμακα · θέσεις κατά προσέγγιση</t-el></p>
+      </div>
+
+      <div class="cx-bar">
+        <button class="cx-play" id="cxFollow" aria-label="Play">▶</button>
+        <nav class="cx-nav" id="cxNav" aria-label="Accelerators"></nav>
+        <button class="cx-restart" id="cxRestart" aria-label="Restart">↺</button>
+      </div>
+      <nav class="cx-exps" id="cxExps" aria-label="Experiments"></nav>
+    </div>
+
+      <p class="lead rv cx-lead"><t-en>No single machine can take a proton from standstill to 6.8 TeV, so CERN passes it along a chain. Each accelerator hands it on to a bigger, faster one.</t-en><t-el>Καμία μηχανή μόνη της δεν πάει ένα πρωτόνιο από το μηδέν στα 6,8 TeV, οπότε το CERN το περνάει από μια αλυσίδα. Κάθε επιταχυντής το παραδίδει σε έναν μεγαλύτερο και γρηγορότερο.</t-el></p>
+
+    <h3 class="section-title rv"><t-en>The LHC: <span class="grad-text">Large Hadron Collider</span></t-en><t-el>LHC: <span class="grad-text">Μεγάλος Επιταχυντής Αδρονίων</span></t-el></h3>
+    <p class="note rv"><t-en>The last link in the chain, and the largest machine of its kind anywhere.</t-en><t-el>Ο τελευταίος κρίκος της αλυσίδας και η μεγαλύτερη μηχανή του είδους της.</t-el></p>
+    <div class="fact-grid">
+      <div class="fact rv" style="--i:1"><b data-count="100">100</b><small>m</small><p><t-en>below ground, on average</t-en><t-el>κάτω από το έδαφος, κατά μέσο όρο</t-el></p></div>
+      <div class="fact rv" style="--i:2"><b data-count="27">27</b><small>km</small><p><t-en>circumference</t-en><t-el>περιφέρεια</t-el></p></div>
+      <div class="fact rv" style="--i:3"><b data-count="1600" data-prefix="~">~1600</b><small><t-en>magnets</t-en><t-el>μαγνήτες</t-el></small><p><t-en>superconducting magnets that steer and squeeze the beam</t-en><t-el>υπεραγώγιμοι μαγνήτες που στρίβουν και «σφίγγουν» τη δέσμη</t-el></p></div>
+      <div class="fact rv" style="--i:4"><b>−271.3</b><small>°C</small><p><t-en>colder than outer space (−270.4 °C)</t-en><t-el>λίγο πιο κρύο κι από το διάστημα (−270,4 °C)</t-el></p></div>
+      <div class="fact rv" style="--i:5"><b data-count="96">96</b><small><t-en>tonnes</t-en><t-el>τόνοι</t-el></small><p><t-en>of liquid helium for the cooling</t-en><t-el>υγρού ηλίου για την ψύξη</t-el></p></div>
+      <div class="fact rv" style="--i:6"><b data-count="11245">11245</b><small><t-en>laps/s</t-en><t-el>γύροι/s</t-el></small><p><t-en>one lap takes about 89 μs</t-en><t-el>ένας γύρος κρατά περίπου 89 μs</t-el></p></div>
+    </div>
+
+    <div class="card mosquito rv">
+      <div class="mosquito-art" aria-hidden="true">
+        <svg viewBox="0 0 160 100"><g class="mq"><ellipse cx="80" cy="55" rx="26" ry="7"/><circle cx="54" cy="52" r="6"/><path d="M48 52 L22 58"/><path class="wing w1" d="M78 50 C70 20 100 12 104 30 C100 42 90 48 78 50z"/><path class="wing w2" d="M84 50 C86 22 118 24 116 40 C110 48 96 50 84 50z"/><path d="M70 60 L58 84 M80 61 L78 88 M92 60 L102 86"/></g></svg>
+      </div>
+      <div>
+        <h3><t-en>A mosquito's worth of energy</t-en><t-el>Όση ενέργεια έχει ένα κουνούπι</t-el></h3>
+        <p><t-en>A mosquito in flight has about <strong>1 TeV</strong> of kinetic energy; a proton in the LHC has 6.8. For a mosquito that's nothing. Packed into a single proton, a trillion times smaller, it's <strong>huge</strong>.</t-en><t-el>Ένα κουνούπι που πετάει έχει περίπου <strong>1 TeV</strong> κινητική ενέργεια· ένα πρωτόνιο στον LHC έχει 6,8. Για κουνούπι, τίποτα. Χωρεμένη σε ένα μόνο πρωτόνιο, τρισεκατομμύρια φορές μικρότερο, είναι <strong>τεράστια</strong>.</t-el></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     05b RIDE ALONG — first-person view
+====================================================== -->
+<section class="chapter" data-id="ride" data-en="Ride along" data-el="Μαζί με το πρωτόνιο">
+  <div class="inner">
+    <header class="ch-head">
+      <p class="eyebrow rv"><t-en>Chapter</t-en><t-el>Κεφάλαιο</t-el> 04b · <t-en>First-person view</t-en><t-el>Πρώτο πρόσωπο</t-el></p>
+      <h2 class="rv" style="--i:1"><t-en>Ride along</t-en><t-el>Μαζί με το πρωτόνιο</t-el></h2>
+      <p class="lead rv" style="--i:2"><t-en>The same journey, from inside the beam pipe. The camera sits right behind the proton, from the hydrogen source to the collision.</t-en><t-el>Το ίδιο ταξίδι, από μέσα από τον σωλήνα της δέσμης. Η κάμερα κάθεται ακριβώς πίσω από το πρωτόνιο, από την πηγή υδρογόνου μέχρι τη σύγκρουση.</t-el></p>
+    </header>
+
+    <div class="jr rv" style="--i:3" id="jr">
+      <div class="jr-stage no-swipe" id="jrStage">
+        <canvas id="jrCanvas"></canvas>
+        <div class="jr-flash" id="jrFlash"></div>
+        <div class="jr-vignette"></div>
+
+        <div class="jr-hud">
+          <p class="jr-step" id="jrStep">1 / 7</p>
+          <h3 class="jr-name" id="jrName"></h3>
+          <p class="jr-what" id="jrWhat"></p>
+        </div>
+
+        <div class="jr-meters">
+          <div class="jr-energy"><span id="jrELabel"></span><b id="jrE">0 eV</b></div>
+          <div><span><t-en>Speed</t-en><t-el>Ταχύτητα</t-el></span><b id="jrV">0% c</b></div>
+          <div><span>Lorentz <i class="nocase">γ</i></span><b id="jrG">1.00</b></div>
+          <div class="jr-part"><span><t-en>Particle</t-en><t-el>Σωματίδιο</t-el></span><b id="jrP">H₂</b></div>
+          <div class="jr-fieldbox" title="Electric field shape"><span><t-en>Its field</t-en><t-el>Το πεδίο του</t-el></span><i id="jrField"></i></div>
+        </div>
+
+        <svg class="jr-map" id="jrMap" viewBox="0 0 300 200" aria-label="Accelerator map"></svg>
+
+        <div class="jr-title" id="jrTitle"><small></small><b></b><em></em></div>
+        <div class="jr-slowmo" id="jrSlowmo"><t-en>slow motion ×10⁹</t-en><t-el>αργή κίνηση ×10⁹</t-el></div>
+
+        <div class="jr-start" id="jrStart">
+          <button class="btn btn-primary" id="jrStartBtn"><span class="pulse-dot"></span><t-en>Ride along</t-en><t-el>Ταξίδεψε μαζί του</t-el></button>
+          <p><t-en>H₂ → H⁻ 45 keV → p⁺ 6.8 TeV → 13.6 TeV collision</t-en><t-el>H₂ → H⁻ 45 keV → p⁺ 6,8 TeV → σύγκρουση 13,6 TeV</t-el></p>
+        </div>
+
+        <div class="jr-end" id="jrEnd">
+          <p class="eyebrow"><t-en>Collision energy</t-en><t-el>Ενέργεια σύγκρουσης</t-el></p>
+          <b>13.6 TeV</b>
+          <p><t-en>Energy turns into new particles (E = mc²). Now the detectors have to catch them.</t-en><t-el>Η ενέργεια γίνεται νέα σωματίδια (E = mc²). Τώρα οι ανιχνευτές πρέπει να τα πιάσουν.</t-el></p>
+          <div class="btn-row">
+            <a class="btn btn-primary jr-next-ch" href="#detectors" id="jrToDet"><i class="jr-count"></i><t-en>How we catch them</t-en><t-el>Πώς τα πιάνουμε</t-el> →</a>
+            <button class="btn btn-ghost" id="jrAgain">↺ <t-en>Again</t-en><t-el>Ξανά</t-el></button>
+          </div>
+        </div>
+
+        <button class="jr-fs" id="jrFs" aria-label="Fullscreen">⛶</button>
+      </div>
+
+      <ol class="jr-steps" id="jrSteps"></ol>
+
+      <div class="jr-controls">
+        <button class="jr-btn" id="jrPlay" aria-label="Pause">❚❚</button>
+        <button class="jr-btn" id="jrReplay" aria-label="Replay">↺</button>
+        <button class="btn btn-small jr-nextbtn" id="jrNext"><t-en>Next stage</t-en><t-el>Επόμενο στάδιο</t-el> →</button>
+        <label class="jr-auto"><input type="checkbox" id="jrAuto" checked><span></span><t-en>Auto</t-en><t-el>Αυτόματα</t-el></label>
+      </div>
+
+      <div class="card jr-info" id="jrInfo" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     06 DETECTORS
+====================================================== -->
+<section class="chapter" data-id="detectors" data-en="Catching the invisible" data-el="Πιάνοντας το αόρατο">
+  <div class="inner">
+    <header class="ch-head">
+      <p class="eyebrow rv"><t-en>Chapter</t-en><t-el>Κεφάλαιο</t-el> 05</p>
+      <h2 class="rv" style="--i:1"><t-en>Catching the <span class="grad-text">invisible</span></t-en><t-el>Πιάνοντας το <span class="grad-text">αόρατο</span></t-el></h2>
+      <p class="lead rv" style="--i:2"><t-en>Particles are far too small to see, so the detector is built in layers around the collision. Each layer stops a different kind of particle, and the collision is reconstructed from where each one stopped.</t-en><t-el>Τα σωματίδια είναι πολύ μικρά για να φανούν, οπότε ο ανιχνευτής χτίζεται σε στρώσεις γύρω από τη σύγκρουση. Κάθε στρώση σταματά άλλο είδος σωματιδίου, και η σύγκρουση ξαναχτίζεται από το πού σταμάτησε το καθένα.</t-el></p>
+    </header>
+
+    <div class="det-wrap rv" style="--i:3">
+      <div class="card det-stage no-swipe">
+        <canvas id="detCanvas"></canvas>
+        <div class="det-tooltip" id="detTip"></div>
+      </div>
+      <div class="det-side">
+        <div class="particle-buttons" id="detButtons">
+          <button data-p="electron" style="--c:var(--red)"><i></i><t-en>Electron</t-en><t-el>Ηλεκτρόνιο</t-el></button>
+          <button data-p="photon" style="--c:var(--gold)"><i class="dash"></i><t-en>Photon</t-en><t-el>Φωτόνιο</t-el></button>
+          <button data-p="pion" style="--c:var(--green)"><i></i><t-en>Charged hadron</t-en><t-el>Φορτισμένο αδρόνιο</t-el></button>
+          <button data-p="neutron" style="--c:var(--green)"><i class="dash"></i><t-en>Neutral hadron</t-en><t-el>Ουδέτερο αδρόνιο</t-el></button>
+          <button data-p="muon" style="--c:var(--beam)"><i></i><t-en>Muon</t-en><t-el>Μιόνιο</t-el></button>
+          <button data-p="neutrino" style="--c:#8a93b0"><i class="dot"></i><t-en>Neutrino</t-en><t-el>Νετρίνο</t-el></button>
+        </div>
+        <button class="btn btn-primary btn-block" id="detCollide"><t-en>Full collision</t-en><t-el>Ολόκληρη σύγκρουση</t-el></button>
+        <div class="card det-info" id="detInfo"></div>
+        <ul class="layer-legend" id="detLegend"></ul>
+      </div>
+    </div>
+
+    <h3 class="section-title rv"><t-en>Four detectors on the ring</t-en><t-el>Τέσσερις ανιχνευτές πάνω στον δακτύλιο</t-el></h3>
+    <div class="grid-4 exp-grid">
+      <article class="card exp rv" style="--i:1">
+        <div class="exp-top"><h4>ATLAS</h4><span class="exp-dot" style="--c:#4d7cff"></span></div>
+        <p><t-en>Built to look for almost anything, the Higgs included. The largest by volume.</t-en><t-el>Φτιαγμένος να ψάχνει σχεδόν τα πάντα, και το Higgs. Ο μεγαλύτερος σε όγκο.</t-el></p>
+        <dl><div><dt><t-en>Length</t-en><t-el>Μήκος</t-el></dt><dd>46 m</dd></div><div><dt><t-en>Height</t-en><t-el>Ύψος</t-el></dt><dd>25 m</dd></div><div><dt><t-en>Weight</t-en><t-el>Βάρος</t-el></dt><dd>7,000 t</dd></div></dl>
+      </article>
+      <article class="card exp rv" style="--i:2">
+        <div class="exp-top"><h4>CMS</h4><span class="exp-dot" style="--c:#ff4d6d"></span></div>
+        <p><t-en>Same goal as ATLAS, different design, and heavier than the Eiffel Tower.</t-en><t-el>Ίδιος στόχος με το ATLAS, διαφορετικός σχεδιασμός, και βαρύτερο από τον Πύργο του Άιφελ.</t-el></p>
+        <dl><div><dt><t-en>Length</t-en><t-el>Μήκος</t-el></dt><dd>21 m</dd></div><div><dt><t-en>Magnet</t-en><t-el>Μαγνήτης</t-el></dt><dd>4 T</dd></div><div><dt><t-en>Weight</t-en><t-el>Βάρος</t-el></dt><dd>14,000 t</dd></div></dl>
+      </article>
+      <article class="card exp visited rv" style="--i:3">
+        <span class="badge"><t-en>Visited</t-en><t-el>Το επισκεφτήκαμε</t-el></span>
+        <div class="exp-top"><h4>ALICE</h4><span class="exp-dot" style="--c:#ff7a3d"></span></div>
+        <p><t-en>Collides lead nuclei to recreate the quark–gluon plasma of the first microseconds. The one we went down to see.</t-en><t-el>Συγκρούει πυρήνες μολύβδου για να ξαναφτιάξει το πλάσμα κουάρκ–γλουονίων των πρώτων μικροδευτερολέπτων. Αυτό που κατεβήκαμε να δούμε.</t-el></p>
+        <dl><div><dt><t-en>Length</t-en><t-el>Μήκος</t-el></dt><dd>26 m</dd></div><div><dt><t-en>Height</t-en><t-el>Ύψος</t-el></dt><dd>16 m</dd></div><div><dt><t-en>Weight</t-en><t-el>Βάρος</t-el></dt><dd>10,000 t</dd></div></dl>
+      </article>
+      <article class="card exp rv" style="--i:4">
+        <div class="exp-top"><h4>LHCb</h4><span class="exp-dot" style="--c:#2ee59d"></span></div>
+        <p><t-en>Studies beauty quarks to find where matter and antimatter behave differently.</t-en><t-el>Μελετά τα κουάρκ beauty για να βρει πού συμπεριφέρονται διαφορετικά η ύλη και η αντιύλη.</t-el></p>
+        <dl><div><dt><t-en>Length</t-en><t-el>Μήκος</t-el></dt><dd>21 m</dd></div><div><dt><t-en>Height</t-en><t-el>Ύψος</t-el></dt><dd>10 m</dd></div><div><dt><t-en>Weight</t-en><t-el>Βάρος</t-el></dt><dd>5,600 t</dd></div></dl>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     07 BEYOND
+====================================================== -->
+<section class="chapter" data-id="beyond" data-en="More than the LHC" data-el="Πέρα από τον LHC">
+  <div class="inner">
+    <header class="ch-head">
+      <p class="eyebrow rv"><t-en>Chapter</t-en><t-el>Κεφάλαιο</t-el> 06</p>
+      <h2 class="rv" style="--i:1"><t-en>CERN is <span class="grad-text">more than the LHC</span></t-en><t-el>Το CERN είναι <span class="grad-text">πολλά περισσότερα</span></t-el></h2>
+      <p class="lead rv" style="--i:2"><t-en>The LHC gets the attention, but the same accelerators feed dozens of other experiments, and some of the work ends up in hospitals and on your phone.</t-en><t-el>Ο LHC τραβάει την προσοχή, αλλά οι ίδιοι επιταχυντές τροφοδοτούν δεκάδες άλλα πειράματα, και μέρος της δουλειάς καταλήγει σε νοσοκομεία και στο κινητό σου.</t-el></p>
+    </header>
+    <div class="beyond-grid" id="beyondGrid"></div>
+
+    <div class="card fcc rv">
+      <div class="fcc-art" aria-hidden="true">
+        <svg viewBox="0 0 300 200"><circle class="fcc-lhc" cx="120" cy="80" r="34"/><circle class="fcc-ring" cx="165" cy="115" r="80"/><circle class="beam-dot" r="4"><animateMotion dur="9s" repeatCount="indefinite" path="M245 115 A80 80 0 1 1 85 115 A80 80 0 1 1 245 115"/></circle><text x="100" y="84">LHC</text><text x="190" y="170">FCC</text></svg>
+      </div>
+      <div>
+        <p class="eyebrow"><t-en>The future?</t-en><t-el>Το μέλλον;</t-el></p>
+        <h3><t-en>The Future Circular Collider</t-en><t-el>Ο Future Circular Collider</t-el></h3>
+        <p><t-en>A proposed new ring of about <strong>91 km</strong>, more than three times bigger than the LHC, passing under Lake Geneva. If it's approved it would run for most of this century, so the students visiting CERN today could be the ones using it.</t-en><t-el>Ένας προτεινόμενος νέος δακτύλιος περίπου <strong>91 km</strong>, πάνω από τρεις φορές μεγαλύτερος από τον LHC, που θα περνά κάτω από τη λίμνη της Γενεύης. Αν εγκριθεί, θα λειτουργεί για το μεγαλύτερο μέρος του αιώνα, άρα οι μαθητές που επισκέπτονται σήμερα το CERN μπορεί να είναι αυτοί που θα τον χρησιμοποιήσουν.</t-el></p>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="beyondModal" aria-hidden="true">
+    <div class="modal-card card">
+      <button class="modal-close" aria-label="Close">×</button>
+      <div id="beyondModalBody"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     08 STATISTICS — the famous assignment
+====================================================== -->
+<section class="chapter" data-id="stats" data-en="The famous assignment" data-el="Η περίφημη εργασία">
+  <div class="inner">
+    <header class="ch-head">
+      <p class="eyebrow rv"><t-en>Chapter</t-en><t-el>Κεφάλαιο</t-el> 07 · <t-en>What I learned</t-en><t-el>Τι έμαθα</t-el></p>
+      <h2 class="rv" style="--i:1"><t-en>The <span class="grad-text">famous assignment</span></t-en><t-el>Η <span class="grad-text">περίφημη εργασία</span></t-el></h2>
+      <p class="lead rv" style="--i:2"><t-en>Before the trip we had one exercise: five measurements of a particle's mass, <em>494, 498, 500, 502 and 506 MeV/c²</em>. Find μ and σ. Easy: 500 and 4. It took the trip for me to see what those two numbers actually say.</t-en><t-el>Πριν το ταξίδι είχαμε μια άσκηση: πέντε μετρήσεις της μάζας ενός σωματιδίου, <em>494, 498, 500, 502 και 506 MeV/c²</em>. Βρες το μ και το σ. Εύκολο: 500 και 4. Χρειάστηκε το ταξίδι για να καταλάβω τι λένε στ' αλήθεια αυτοί οι δύο αριθμοί.</t-el></p>
+    </header>
+
+    <div class="card measure rv" style="--i:3">
+      <div class="measure-head">
+        <h3><t-en>① Drag the measurements</t-en><t-el>① Σύρε τις μετρήσεις</t-el></h3>
+        <div class="btn-row">
+          <button class="btn btn-small btn-ghost" id="msReset"><t-en>Assignment values</t-en><t-el>Τιμές εργασίας</t-el></button>
+          <button class="btn btn-small btn-ghost" id="msSame"><t-en>Can σ be zero?</t-en><t-el>Γίνεται σ = 0;</t-el></button>
+          <button class="btn btn-small btn-ghost" id="msSpread"><t-en>Bad detector</t-en><t-el>Κακός ανιχνευτής</t-el></button>
+        </div>
+      </div>
+      <svg id="msSvg" class="no-swipe" viewBox="0 0 800 170"></svg>
+      <div class="formula-row">
+        <div class="formula"><span class="f-label">μ =</span><span id="msMeanF"></span></div>
+        <div class="formula"><span class="f-label">σ =</span><span id="msSigmaF"></span></div>
+      </div>
+      <p class="ms-msg" id="msMsg"></p>
+    </div>
+
+    <div class="card rv">
+      <div class="measure-head">
+        <h3><t-en>② Why the "bell curve" is everywhere</t-en><t-el>② Γιατί η «καμπάνα» είναι παντού</t-el></h3>
+        <div class="tabs" id="gTabs">
+          <button class="active" data-tab="galton"><t-en>Galton board</t-en><t-el>Πίνακας Galton</t-el></button>
+          <button data-tab="dice"><t-en>3 dice</t-en><t-el>3 ζάρια</t-el></button>
+        </div>
+      </div>
+      <p class="muted"><t-en>Whenever lots of small random effects add up, the same bell shape appears. Drop balls through pins, or roll three dice like in backgammon, and watch it build.</t-en><t-el>Όποτε αθροίζονται πολλά μικρά τυχαία φαινόμενα, εμφανίζεται το ίδιο σχήμα καμπάνας. Ρίξε μπάλες ανάμεσα σε καρφιά ή τρία ζάρια όπως στο τάβλι, και δες το να σχηματίζεται.</t-el></p>
+      <div class="galton-wrap no-swipe">
+        <canvas id="galtonCanvas"></canvas>
+        <div class="dice-row" id="diceRow" hidden><div class="die"></div><div class="die"></div><div class="die"></div><b class="dice-sum" id="diceSum">= ?</b></div>
+      </div>
+      <div class="galton-controls">
+        <div class="btn-row" id="galtonBtns">
+          <button class="btn btn-small" data-drop="1">+1</button>
+          <button class="btn btn-small" data-drop="100">+100</button>
+          <button class="btn btn-small" data-drop="rain"><t-en>Continuous</t-en><t-el>Συνεχώς</t-el></button>
+          <button class="btn btn-small btn-ghost" data-drop="reset"><t-en>Reset</t-en><t-el>Επαναφορά</t-el></button>
+        </div>
+        <div class="readout"><span><t-en>Total</t-en><t-el>Σύνολο</t-el>: <b id="gN">0</b></span><span><t-en>inside ±1σ</t-en><t-el>μέσα στο ±1σ</t-el>: <b id="gIn">—</b></span></div>
+      </div>
+    </div>
+
+    <div class="card rv">
+      <h3><t-en>③ The meaning of σ</t-en><t-el>③ Το νόημα του σ</t-el></h3>
+      <p class="muted"><t-en>About 68 % of measurements land within one σ of the mean. For our particle that is <strong>496–504 MeV/c²</strong>, roughly <strong>1360</strong> out of 2000 events. Widen the window and watch how fast the rest disappears.</t-en><t-el>Περίπου το 68 % των μετρήσεων πέφτει μέσα σε ένα σ από τη μέση τιμή. Για το σωματίδιό μας αυτό είναι <strong>496–504 MeV/c²</strong>, περίπου <strong>1360</strong> από τα 2000 γεγονότα. Άνοιξε το παράθυρο και δες πόσο γρήγορα χάνονται τα υπόλοιπα.</t-el></p>
+      <div class="sigma-wrap no-swipe">
+        <canvas id="sigmaCanvas"></canvas>
+      </div>
+      <div class="sigma-controls">
+        <label for="sigmaRange">± <b id="sigmaK">1.0</b> σ</label>
+        <input type="range" id="sigmaRange" min="0.2" max="5" step="0.1" value="1">
+        <div class="sigma-out">
+          <div><span><t-en>inside</t-en><t-el>μέσα</t-el></span><b id="sigmaPct">68.27%</b></div>
+          <div><span><t-en>range for X</t-en><t-el>εύρος για το Χ</t-el></span><b id="sigmaRangeX">496 – 504</b></div>
+          <div><span><t-en>of 2000 events</t-en><t-el>από 2000 γεγονότα</t-el></span><b id="sigmaEvents">1365</b></div>
+          <div><span><t-en>chance to be outside</t-en><t-el>πιθανότητα να είναι έξω</t-el></span><b id="sigmaOut">1 in 3</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     09 DISCOVERY
+====================================================== -->
+<section class="chapter" data-id="discovery" data-en="How sure is sure?" data-el="Πόσο σίγουροι είμαστε;">
+  <div class="inner">
+    <header class="ch-head">
+      <p class="eyebrow rv"><t-en>Chapter</t-en><t-el>Κεφάλαιο</t-el> 08 · <t-en>What I learned</t-en><t-el>Τι έμαθα</t-el></p>
+      <h2 class="rv" style="--i:1"><t-en>How sure is <span class="grad-text">sure?</span></t-en><t-el>Πόσο σίγουροι <span class="grad-text">είμαστε;</span></t-el></h2>
+      <p class="lead rv" style="--i:2"><t-en>“How many σ?” was a question we heard a lot. The rule: a bump in the data only counts as a new particle when it sits at least <strong>5σ</strong> above what background alone would give. Collect data below and see when the Higgs crosses that line.</t-en><t-el>«Πόσα σ;» ήταν ερώτηση που ακούσαμε πολλές φορές. Ο κανόνας: ένα εξόγκωμα στα δεδομένα μετράει ως νέο σωματίδιο μόνο όταν ξεπερνά κατά τουλάχιστον <strong>5σ</strong> όσα θα έδινε μόνος του ο θόρυβος. Μάζεψε δεδομένα παρακάτω και δες πότε το Higgs περνά αυτή τη γραμμή.</t-el></p>
+    </header>
+
+    <div class="higgs-wrap rv" style="--i:3">
+      <div class="card higgs-stage no-swipe">
+        <canvas id="higgsCanvas"></canvas>
+        <div class="discovery-banner" id="discBanner">
+          <b><t-en>Discovery · 5σ</t-en><t-el>Ανακάλυψη · 5σ</t-el></b>
+          <span><t-en>4 July 2012 · ATLAS &amp; CMS announce a new particle at 125 GeV: the Higgs boson.</t-en><t-el>4 Ιουλίου 2012 · Τα ATLAS &amp; CMS ανακοινώνουν νέο σωματίδιο στα 125 GeV: το μποζόνιο Higgs.</t-el></span>
+        </div>
+      </div>
+      <div class="card higgs-side">
+        <div class="sig-meter">
+          <div class="sig-track"><i id="sigFill"></i><span class="mark m3">3σ <small><t-en>evidence</t-en><t-el>ένδειξη</t-el></small></span><span class="mark m5">5σ <small><t-en>discovery</t-en><t-el>ανακάλυψη</t-el></small></span></div>
+          <div class="sig-value"><b id="sigVal">0.0</b><span>σ</span></div>
+        </div>
+        <div class="readout col">
+          <span><t-en>Photon pairs recorded</t-en><t-el>Ζεύγη φωτονίων</t-el>: <b id="hN">0</b></span>
+          <span><t-en>Fake-signal chance</t-en><t-el>Πιθανότητα «ψεύτικου» σήματος</t-el>: <b id="hP">—</b></span>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="hRun"><t-en>Collect data</t-en><t-el>Μάζεψε δεδομένα</t-el></button>
+          <button class="btn btn-ghost btn-small" id="hReset"><t-en>Reset</t-en><t-el>Επαναφορά</t-el></button>
+        </div>
+        <p class="muted small"><t-en>Each dot counts collisions that produced two photons (γγ) with a certain combined mass. Most come from boring background; a Higgs shows up as a small bump.</t-en><t-el>Κάθε σημείο μετράει συγκρούσεις που έβγαλαν δύο φωτόνια (γγ) με συγκεκριμένη συνολική μάζα. Τα περισσότερα είναι «βαρετός» θόρυβος· το Higgs φαίνεται σαν ένα μικρό εξόγκωμα.</t-el></p>
+      </div>
+    </div>
+
+    <h3 class="section-title rv"><t-en>How rare is 5σ?</t-en><t-el>Πόσο σπάνιο είναι το 5σ;</t-el></h3>
+    <div class="grid-3">
+      <div class="card odds rv" style="--i:1"><b>1 <small><t-en>in</t-en><t-el>στα</t-el></small> 3.5M</b><p><t-en>the chance that background alone makes a bump this big</t-en><t-el>η πιθανότητα ο θόρυβος μόνος του να δώσει τόσο μεγάλο εξόγκωμα</t-el></p></div>
+      <div class="card odds rv" style="--i:2"><b>22 <small><t-en>heads</t-en><t-el>κορόνες</t-el></small></b><p><t-en>in a row with a fair coin: about the same odds</t-en><t-el>στη σειρά με ένα κανονικό κέρμα: περίπου η ίδια πιθανότητα</t-el></p></div>
+      <div class="card odds rv" style="--i:3"><b>≈ 5.3σ</b><p><t-en>the odds of winning a 6/49 lottery, about 1 in 14 million</t-en><t-el>η πιθανότητα να κερδίσεις σε Λόττο 6/49, περίπου 1 στα 14 εκατομμύρια</t-el></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     10 MUONS
+====================================================== -->
+<section class="chapter" data-id="muons" data-en="The muon that shouldn't reach us" data-el="Το μιόνιο που δεν έπρεπε να φτάνει">
+  <div class="inner">
+    <header class="ch-head">
+      <p class="eyebrow rv"><t-en>Chapter</t-en><t-el>Κεφάλαιο</t-el> 09 · <t-en>What I learned</t-en><t-el>Τι έμαθα</t-el></p>
+      <h2 class="rv" style="--i:1"><t-en>The muon that <span class="grad-text">shouldn't reach us</span></t-en><t-el>Το μιόνιο που <span class="grad-text">δεν έπρεπε να φτάνει</span></t-el></h2>
+      <p class="lead rv" style="--i:2"><t-en>Cosmic rays hitting the atmosphere about <strong>10 km</strong> up create muons, heavier cousins of the electron that live only <strong>2.2 μs</strong>. Even at light speed that is enough for about <strong>660 m</strong>. Some still reach the ground, and a few pass through you every second.</t-en><t-el>Οι κοσμικές ακτίνες που χτυπούν την ατμόσφαιρα περίπου <strong>10 km</strong> ψηλά δημιουργούν μιόνια, βαρύτερα «ξαδέρφια» του ηλεκτρονίου που ζουν μόνο <strong>2,2 μs</strong>. Ακόμα και με την ταχύτητα του φωτός αυτό φτάνει για περίπου <strong>660 m</strong>. Κι όμως κάποια φτάνουν στο έδαφος, και μερικά περνούν μέσα από σένα κάθε δευτερόλεπτο.</t-el></p>
+    </header>
+
+    <div class="muon-wrap rv" style="--i:3">
+      <div class="card muon-stage no-swipe">
+        <canvas id="muonCanvas"></canvas>
+      </div>
+      <div class="card muon-side">
+        <label class="slider-label" for="muonV"><t-en>Muon speed</t-en><t-el>Ταχύτητα μιονίου</t-el>: <b id="muonVOut">0.9994 c</b></label>
+        <input type="range" id="muonV" min="0" max="1000" value="700">
+        <div class="meters two">
+          <div class="meter"><span><t-en>Lorentz factor</t-en><t-el>Παράγοντας Lorentz</t-el> <i class="nocase">γ</i></span><b id="muonGamma">29</b></div>
+          <div class="meter"><span><t-en>Lifetime seen from Earth</t-en><t-el>Χρόνος ζωής από τη Γη</t-el></span><b id="muonLife">64 μs</b></div>
+        </div>
+        <div class="versus">
+          <div><span><t-en>Classical physics</t-en><t-el>Κλασική φυσική</t-el></span><b id="muonClassic">0 / 0</b><small><t-en>reach the ground</t-en><t-el>φτάνουν στο έδαφος</t-el></small></div>
+          <div class="win"><span><t-en>With relativity</t-en><t-el>Με σχετικότητα</t-el></span><b id="muonRel">0 / 0</b><small><t-en>reach the ground</t-en><t-el>φτάνουν στο έδαφος</t-el></small></div>
+        </div>
+        <button class="btn btn-primary btn-block" id="muonGo"><t-en>Send cosmic muons</t-en><t-el>Στείλε κοσμικά μιόνια</t-el></button>
+        <p class="muted small"><t-en>Both columns get the <em>same</em> muons with the same lifetimes. The only difference is Einstein.</t-en><t-el>Και οι δύο στήλες παίρνουν τα <em>ίδια</em> μιόνια με τους ίδιους χρόνους ζωής. Η μόνη διαφορά είναι ο Αϊνστάιν.</t-el></p>
+      </div>
+    </div>
+
+    <div class="card insight rv">
+      <h3><t-en>The answer: their clock runs slow</t-en><t-el>Η απάντηση: το ρολόι τους πάει αργά</t-el></h3>
+      <p><t-en>Seen from the ground, a clock moving close to light speed ticks slower, by the factor γ = 1/√(1 − v²/c²). With γ ≈ 30 the muon's 2.2 μs stretch to about 66 μs on our clocks, enough for roughly 20 km. <strong>Every muon that reaches a detector on the ground is a small confirmation of relativity.</strong></t-en><t-el>Από το έδαφος, ένα ρολόι που κινείται κοντά στην ταχύτητα του φωτός χτυπά πιο αργά, κατά τον παράγοντα γ = 1/√(1 − v²/c²). Με γ ≈ 30 τα 2,2 μs του μιονίου γίνονται περίπου 66 μs στα δικά μας ρολόγια, αρκετά για περίπου 20 km. <strong>Κάθε μιόνιο που φτάνει σε ανιχνευτή στο έδαφος είναι μια μικρή επιβεβαίωση της σχετικότητας.</strong></t-el></p>
+    </div>
+
+    <h3 class="section-title rv"><t-en>Scaled up: the twin paradox</t-en><t-el>Σε μεγαλύτερη κλίμακα: το παράδοξο των διδύμων</t-el></h3>
+    <div class="card twins rv">
+      <svg id="twinSvg" viewBox="0 0 800 300" aria-label="Twin paradox animation"></svg>
+      <div class="twins-controls">
+        <label class="slider-label" for="twinV"><t-en>Rocket speed</t-en><t-el>Ταχύτητα πυραύλου</t-el>: <b id="twinVOut">0.98 c</b></label>
+        <input type="range" id="twinV" min="0" max="995" value="980">
+        <div class="twin-ages">
+          <div><span><t-en>Twin A — stayed on Earth</t-en><t-el>Δίδυμος Α — έμεινε στη Γη</t-el></span><b id="twinA">50</b><small><t-en>years old</t-en><t-el>ετών</t-el></small></div>
+          <div class="win"><span><t-en>Twin B — travelled</t-en><t-el>Δίδυμος Β — ταξίδεψε</t-el></span><b id="twinB">26</b><small><t-en>years old</t-en><t-el>ετών</t-el></small></div>
+        </div>
+        <p class="muted small"><t-en>Both are 20 at the start; 30 years pass on Earth. It only looks like a paradox: B is the one who turns around, so the two situations aren't symmetric.</t-en><t-el>Και οι δύο είναι 20 στην αρχή· στη Γη περνούν 30 χρόνια. Μόνο φαίνεται παράδοξο: ο Β είναι αυτός που γυρίζει πίσω, άρα οι δύο καταστάσεις δεν είναι συμμετρικές.</t-el></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     11 VISIT
+====================================================== -->
+<section class="chapter" data-id="visit" data-en="My weekend, in photos" data-el="Το τριήμερο σε φωτογραφίες">
+  <div class="inner">
+    <header class="ch-head">
+      <p class="eyebrow rv"><t-en>Chapter</t-en><t-el>Κεφάλαιο</t-el> 10</p>
+      <h2 class="rv" style="--i:1"><t-en>My weekend, <span class="grad-text">in photos</span></t-en><t-el>Το τριήμερο <span class="grad-text">σε φωτογραφίες</span></t-el></h2>
+      <p class="lead rv" style="--i:2"><t-en>Friday to Sunday: from the Science Gateway to 56 metres underground at ALICE, and a room full of cloud chambers glowing in the dark. Three days, packed.</t-en><t-el>Παρασκευή έως Κυριακή: από το Science Gateway μέχρι 56 μέτρα κάτω από τη γη στο ALICE, κι ένα δωμάτιο γεμάτο θαλάμους νεφώσεως να λάμπουν στο σκοτάδι. Τρεις μέρες, γεμάτες.</t-el></p>
+    </header>
+    <div class="filters rv" style="--i:3" id="galFilters"></div>
+    <div class="gallery" id="gallery"></div>
+  </div>
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lb-close" aria-label="Close">×</button>
+    <button class="lb-prev" aria-label="Previous">‹</button>
+    <figure><img id="lbImg" alt=""><figcaption id="lbCap"></figcaption></figure>
+    <button class="lb-next" aria-label="Next">›</button>
+  </div>
+</section>
+
+<!-- =====================================================
+     12 LEARNED
+====================================================== -->
+<section class="chapter" data-id="learned" data-en="What I take home" data-el="Τι παίρνω μαζί μου">
+  <div class="inner">
+    <header class="ch-head">
+      <p class="eyebrow rv"><t-en>Chapter</t-en><t-el>Κεφάλαιο</t-el> 11</p>
+      <h2 class="rv" style="--i:1"><t-en>What I <span class="grad-text">take home</span></t-en><t-el>Τι <span class="grad-text">παίρνω μαζί μου</span></t-el></h2>
+    </header>
+
+    <div class="card cloud-card rv" style="--i:2">
+      <div class="cloud-stage no-swipe"><canvas id="cloudCanvas"></canvas>
+        <div class="cloud-overlay">
+          <p class="eyebrow"><t-en>Live cloud chamber</t-en><t-el>Ζωντανός θάλαμος νεφώσεως</t-el></p>
+          <p class="cloud-text"><t-en>Like the ones we watched in the dark: every trail is a particle from space passing through. Tap to send a muon.</t-en><t-el>Σαν αυτούς που κοιτούσαμε στο σκοτάδι: κάθε ίχνος είναι ένα σωματίδιο από το διάστημα που περνάει. Πάτα για να στείλεις ένα μιόνιο.</t-el></p>
+        </div>
+        <div class="cloud-legend">
+          <span><i style="background:#fff"></i>α <b id="cA">0</b></span>
+          <span><i style="background:#9ad8ff"></i>β <b id="cB">0</b></span>
+          <span><i style="background:#c7b8ff"></i>μ <b id="cM">0</b></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lessons">
+      <div class="lesson rv" style="--i:1"><span class="num">01</span><h4><t-en>Nobody works alone</t-en><t-el>Κανείς δεν δουλεύει μόνος</t-el></h4><p><t-en>Our exercise only came together once we worked on it as a group. CERN is the same thing, with thousands of people.</t-en><t-el>Η άσκησή μας έβγαινε μόνο όταν τη δουλεύαμε ως ομάδα. Το CERN είναι το ίδιο πράγμα, με χιλιάδες ανθρώπους.</t-el></p></div>
+      <div class="lesson rv" style="--i:2"><span class="num">02</span><h4><t-en>σ is not just a number</t-en><t-el>Το σ δεν είναι απλώς αριθμός</t-el></h4><p><t-en>I could compute σ = 4 before the trip. Now I know it really says how much to trust the 500.</t-en><t-el>Το σ = 4 το υπολόγιζα και πριν το ταξίδι. Τώρα ξέρω ότι στην ουσία λέει πόσο να εμπιστευτώ το 500.</t-el></p></div>
+      <div class="lesson rv" style="--i:3"><span class="num">03</span><h4><t-en>Bell curves everywhere</t-en><t-el>Καμπάνες παντού</t-el></h4><p><t-en>Dice, measurements, lottery odds: once I noticed the bell curve, I kept seeing it.</t-en><t-el>Ζάρια, μετρήσεις, λόττο: από τη στιγμή που πρόσεξα την καμπάνα, τη βλέπω παντού.</t-el></p></div>
+      <div class="lesson rv" style="--i:4"><span class="num">04</span><h4><t-en>“Sure” has a number</t-en><t-el>Το «σίγουρο» έχει αριθμό</t-el></h4><p><t-en>Nothing gets announced until the chance of a fluke drops below about one in a few million.</t-en><t-el>Τίποτα δεν ανακοινώνεται μέχρι η πιθανότητα τυχαίου αποτελέσματος να πέσει κάτω από περίπου μία στα λίγα εκατομμύρια.</t-el></p></div>
+      <div class="lesson rv" style="--i:5"><span class="num">05</span><h4><t-en>Relativity is measurable</t-en><t-el>Η σχετικότητα μετριέται</t-el></h4><p><t-en>Not science fiction: muons from the sky test it all the time, right above us.</t-en><t-el>Όχι επιστημονική φαντασία: τα μιόνια από τον ουρανό το ελέγχουν συνέχεια, πάνω από τα κεφάλια μας.</t-el></p></div>
+      <div class="lesson rv" style="--i:6"><span class="num">06</span><h4><t-en>Curiosity pays off</t-en><t-el>Η περιέργεια αποδίδει</t-el></h4><p><t-en>The Web, medical scanners, cancer treatment: research with no practical goal keeps ending up in everyday life.</t-en><t-el>Ο Ιστός, ιατρικοί σαρωτές, θεραπεία του καρκίνου: έρευνα χωρίς πρακτικό στόχο καταλήγει ξανά και ξανά στην καθημερινότητα.</t-el></p></div>
+    </div>
+
+    <div class="card thanks rv">
+      <p class="eyebrow"><t-en>A small thank-you</t-en><t-el>Ένα μικρό ευχαριστώ</t-el></p>
+      <h3><t-en>I didn't ask many questions at CERN.<br><span class="grad-text">So I built this instead.</span></t-en><t-el>Δεν έκανα πολλές ερωτήσεις στο CERN.<br><span class="grad-text">Γι' αυτό έφτιαξα αυτό.</span></t-el></h3>
+      <p><t-en>To the CERN physicists and educators who explained everything with so much patience and humour, from Gaussian curves to muons: thank you. This app is my way of saying that I was listening, the whole time.</t-en><t-el>Στους φυσικούς και τους εκπαιδευτικούς του CERN που μας τα εξήγησαν όλα με τόση υπομονή και χιούμορ, από τις Γκαουσιανές μέχρι τα μιόνια: ευχαριστώ. Αυτή η εφαρμογή είναι ο τρόπος μου να πω ότι άκουγα, όλη την ώρα.</t-el></p>
+      <div class="qr" id="qrBox" hidden><div id="qrCode"></div><span><t-en>Open it on your phone</t-en><t-el>Άνοιξέ το στο κινητό σου</t-el></span></div>
+      <div class="credits">
+        <span><t-en>Made by</t-en><t-el>Από</t-el> <b data-author-name></b>, <span data-author-age></span> · <span data-author-school></span></span>
+        <span><t-en>Hand-written HTML, CSS &amp; JavaScript. No frameworks, and every simulation coded from scratch.</t-en><t-el>Γραμμένο στο χέρι σε HTML, CSS &amp; JavaScript. Χωρίς frameworks, και κάθε προσομοίωση φτιαγμένη από το μηδέν.</t-el></span>
+      </div>
+      <a class="btn btn-ghost" href="#home">↺ <t-en>Back to the start</t-en><t-el>Πίσω στην αρχή</t-el></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- prev / next -->
+<nav class="pager" aria-label="Chapter navigation">
+  <button class="pager-btn" id="prevBtn" aria-label="Previous chapter">‹</button>
+  <div class="pager-dots" id="pagerDots"></div>
+  <button class="pager-btn" id="nextBtn" aria-label="Next chapter">›</button>
+</nav>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="js/config.js"></script>
+<script src="js/core.js"></script>
+<script src="js/bg.js"></script>
+<script src="js/intro.js"></script>
+<script src="js/hero.js"></script>
+<script src="js/scale.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/complex.js"></script>
+<script src="js/journey.js"></script>
+<script src="js/detector.js"></script>
+<script src="js/beyond.js"></script>
+<script src="js/stats.js"></script>
+<script src="js/higgs.js"></script>
+<script src="js/muon.js"></script>
+<script src="js/gallery.js"></script>
+<script src="js/cloud.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
