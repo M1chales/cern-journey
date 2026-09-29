@@ -177,7 +177,7 @@
     }
   }
 
-  range.value = 740;
+  range.value = 743;   // γ ≈ 29 → lifetime ≈ 64 μs (matches the text)
   updateSpeed();
   range.addEventListener('input', updateSpeed);
   goBtn.onclick = launch;

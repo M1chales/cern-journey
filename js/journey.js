@@ -62,7 +62,7 @@
       info: [
         { en: 'A straight accelerator, 86 m long. CERN\'s newest, running since 2020.', el: 'Ευθύγραμμος επιταχυντής 86 m. Ο νεότερος του CERN, σε λειτουργία από το 2020.' },
         { en: 'The accelerating cells get longer and longer: the faster the ions, the further they travel between two pushes.', el: 'Οι επιταχυντικές κοιλότητες γίνονται όλο και μακρύτερες: όσο πιο γρήγορα τα ιόντα, τόσο πιο πολύ ταξιδεύουν ανάμεσα σε δύο «σπρωξίματα».' },
-        { en: 'At the end, a thin carbon foil strips off both electrons: only the bare proton is left.', el: 'Στο τέλος, ένα λεπτό φύλλο άνθρακα αφαιρεί και τα δύο ηλεκτρόνια: μένει μόνο το γυμνό πρωτόνιο.' }
+        { en: 'At the end of Linac4, as the beam is injected into the PS Booster, a thin foil strips off both electrons: only bare protons are left.', el: 'Στο τέλος του Linac4, καθώς η δέσμη περνά στον PS Booster, ένα λεπτό φύλλο αφαιρεί και τα δύο ηλεκτρόνια: μένουν μόνο γυμνά πρωτόνια.' }
       ],
       facts: [[{ en: 'Energy', el: 'Ενέργεια' }, '45 keV → 160 MeV'], [{ en: 'Length', el: 'Μήκος' }, '86 m'], [{ en: 'Since', el: 'Από' }, '2020']] },
     { key: 'psb', short: { en: 'Booster', el: 'Booster' }, name: { en: 'PS Booster', el: 'PS Booster' },
@@ -103,13 +103,13 @@
       facts: [[{ en: 'Energy', el: 'Ενέργεια' }, '0.45 → 6.8 TeV'], [{ en: 'Size', el: 'Μέγεθος' }, '26.7 km'], [{ en: 'Since', el: 'Από' }, '2008']] },
     { key: 'collision', short: { en: 'Collision', el: 'Σύγκρουση' }, name: { en: 'Collision', el: 'Σύγκρουση' },
       E0: 6.8e12, E1: 6.8e12, dur: 9, color: '#ffd166', part: 'p⁺ ⟶⟵ p⁺',
-      what: { en: 'The beams cross inside a detector: 13.6 TeV', el: 'Οι δέσμες διασταυρώνονται μέσα σε έναν ανιχνευτή: 13,6 TeV' },
+      what: { en: 'Two 6.8 TeV beams cross inside a detector: 13.6 TeV centre-of-mass energy', el: 'Δύο δέσμες των 6,8 TeV διασταυρώνονται μέσα σε ανιχνευτή: 13,6 TeV στο κέντρο μάζας' },
       info: [
         { en: 'Just before the collision point, magnets squeeze the beams thinner than a human hair.', el: 'Λίγο πριν το σημείο σύγκρουσης, μαγνήτες «στριμώχνουν» τις δέσμες ώστε να γίνουν πιο λεπτές από μια τρίχα.' },
         { en: 'Bunches cross 40 million times a second, with up to about a billion proton collisions every second.', el: 'Τα πακέτα διασταυρώνονται 40 εκατομμύρια φορές το δευτερόλεπτο, με έως και περίπου ένα δισεκατομμύριο συγκρούσεις πρωτονίων κάθε δευτερόλεπτο.' },
-        { en: 'The energy of the collision turns into brand-new particles (E = mc²) that fly out in every direction.', el: 'Η ενέργεια της σύγκρουσης μετατρέπεται σε ολοκαίνουργια σωματίδια (E = mc²) που φεύγουν προς κάθε κατεύθυνση.' }
+        { en: 'Each proton has 6.8 TeV; head-on, the collision has 13.6 TeV in the centre of mass. That energy can produce new particles (E = mc²), whose masses and momenta the detectors reconstruct.', el: 'Κάθε πρωτόνιο έχει 6,8 TeV· μετωπικά, η σύγκρουση έχει 13,6 TeV στο κέντρο μάζας. Αυτή η ενέργεια μπορεί να δημιουργήσει νέα σωματίδια (E = mc²), των οποίων τις μάζες και τις ορμές ανασυνθέτουν οι ανιχνευτές.' }
       ],
-      facts: [[{ en: 'Collision', el: 'Σύγκρουση' }, '6.8 + 6.8 = 13.6 TeV'], [{ en: 'Crossings', el: 'Διασταυρώσεις' }, '40 M/s']] }
+      facts: [[{ en: 'Per beam', el: 'Ανά δέσμη' }, '6.8 TeV'], [{ en: 'Centre of mass', el: 'Κέντρο μάζας' }, '13.6 TeV'], [{ en: 'Crossings', el: 'Διασταυρώσεις' }, '40 M/s']] }
   ];
   const N = STAGES.length;
 
@@ -764,7 +764,7 @@
     nameEl.textContent = T(s.name);
     whatEl.textContent = T(s.what);
     root.style.setProperty('--stage', s.color);
-    eLabel.textContent = s.key === 'collision' ? T({ en: 'Collision energy', el: 'Ενέργεια σύγκρουσης' }) : T({ en: 'Energy', el: 'Ενέργεια' });
+    eLabel.textContent = s.key === 'collision' ? T({ en: 'Collision energy (c.m.)', el: 'Ενέργεια σύγκρουσης (κ.μ.)' }) : T({ en: 'Energy', el: 'Ενέργεια' });
   }
 
   function renderInfo() {

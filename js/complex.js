@@ -870,7 +870,7 @@
       ev.towers.forEach(([an, l]) => tower(an, .52, l, '#d8a24a', .06));
       ev.photons.forEach(an => { drawTrack([[0, 0], [Math.cos(an) * .37 * grow, Math.sin(an) * .37 * grow]], '#ffe27a', 1.4, [4, 4]); tower(an, .37, .13, '#ffd84a', .09); });
       caption(T({ en: 'ATLAS · simulated, simplified event', el: 'ATLAS · προσομοιωμένο, απλοποιημένο γεγονός' }),
-        T({ en: 'Two photons (γγ) in the calorimeter, the channel in which the Higgs boson was discovered', el: 'Δύο φωτόνια (γγ) στο καλορίμετρο, το κανάλι στο οποίο ανακαλύφθηκε το μποζόνιο Higgs' }),
+        T({ en: 'Two photons (γγ) in the calorimeter, one of the channels in which the Higgs boson was discovered', el: 'Δύο φωτόνια (γγ) στο καλορίμετρο, ένα από τα κανάλια στα οποία ανακαλύφθηκε το μποζόνιο Higgs' }),
         [['#f5b041', T({ en: 'charged tracks', el: 'φορτισμένες τροχιές' })], ['#ffe27a', T({ en: 'photons', el: 'φωτόνια' }), [4, 4]]]);
     }
     if (ev.id === 'cms') {
@@ -1009,7 +1009,7 @@
   const TXT = {
     linac: { what: { en: 'H⁻ ions from a hydrogen source are accelerated by radio-frequency cavities.', el: 'Ιόντα H⁻ από πηγή υδρογόνου επιταχύνονται από κοιλότητες ραδιοσυχνοτήτων.' },
       next: 'PS Booster', real: { en: '86 m · since 2020', el: '86 m · από το 2020' } },
-    psb: { what: { en: 'A foil strips the electrons (H⁻ → p⁺). Four stacked rings, 157 m around.', el: 'Ένα φύλλο αφαιρεί τα ηλεκτρόνια (H⁻ → p⁺). Τέσσερις στοιβαγμένοι δακτύλιοι, 157 m.' },
+    psb: { what: { en: 'On injection from Linac4, a foil strips both electrons (H⁻ → p⁺). Four stacked rings, 157 m around.', el: 'Στην είσοδο από τον Linac4, ένα φύλλο αφαιρεί και τα δύο ηλεκτρόνια (H⁻ → p⁺). Τέσσερις στοιβαγμένοι δακτύλιοι, 157 m.' },
       next: 'PS', real: { en: 'real: ≈1.8 million laps per second', el: 'πραγματικά: ≈1,8 εκατ. γύροι το δευτερόλεπτο' } },
     ps: { what: { en: '628 m, 100 magnets. It forms the bunch trains for the LHC.', el: '628 m, 100 μαγνήτες. Σχηματίζει τις σειρές πακέτων για τον LHC.' },
       next: 'SPS', real: { en: 'real: ≈480 000 laps per second', el: 'πραγματικά: ≈480.000 γύροι το δευτερόλεπτο' } },
@@ -1040,7 +1040,7 @@
       where = ex.name;
       what = T(ex.what);
       if (focus.exp === 'alice') { eLbl = T({ en: 'Pb–Pb collision', el: 'Σύγκρουση Pb–Pb' }); eTxt = T({ en: '5.36 TeV / nucleon pair', el: '5,36 TeV / ζεύγος νουκλεονίων' }); }
-      else { eLbl = T({ en: 'Collision energy', el: 'Ενέργεια σύγκρουσης' }); eTxt = fmtE(13.6e12); }
+      else { eLbl = T({ en: 'Collision energy (c.m.) · 2 × 6.8 TeV', el: 'Ενέργεια σύγκρουσης (κ.μ.) · 2 × 6,8 TeV' }); eTxt = fmtE(13.6e12); }
       const order = ['atlas', 'alice', 'cms', 'lhcb'];
       const i = order.indexOf(focus.ip);
       next = touring && i < 3 ? IP[order[i + 1]].name : '—';

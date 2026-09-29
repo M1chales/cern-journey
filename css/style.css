@@ -1027,3 +1027,26 @@ input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 
 .ticker { max-width: 680px; }
 .ticker > div:last-child { grid-column: 1 / -1; }
 @media (min-width: 720px) { .ticker { grid-template-columns: repeat(3, 1fr); } .ticker > div:last-child { grid-column: auto; } }
+
+/* hydrogen widget shows H⁻: two electrons */
+.h-electron.e2 { top: auto; bottom: -14px; }
+.h-atom.stripped .h-electron.e2 { transform: translate(-240px, 140px) scale(.4); }
+
+/* the five smaller LHC experiments: a compact list under the four big ones */
+.minor-exps { margin-top: 26px; }
+.minor-exps dl { margin: 0; display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--line); }
+@media (min-width: 900px) { .minor-exps dl { grid-template-columns: 1fr 1fr; column-gap: 28px; } }
+.minor-exps dl > div { display: grid; grid-template-columns: 118px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.minor-exps dt { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--ink); }
+.minor-exps dd { margin: 0; font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+.minor-exps dd small { display: block; font-family: var(--mono); font-size: 11px; color: var(--dim); margin-top: 2px; }
+
+/* sources: small and folded away */
+.sources { margin: 28px auto 0; max-width: 760px; font-size: 13px; color: var(--muted); }
+.sources summary { cursor: pointer; font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); text-align: center; list-style: none; }
+.sources summary::-webkit-details-marker { display: none; }
+.sources summary::after { content: ' +'; }
+.sources[open] summary::after { content: ' −'; }
+.sources p { margin: 14px 0 8px; }
+.sources ul { margin: 0; padding-left: 18px; line-height: 1.8; }
+.sources a { color: #b9c9ea; text-underline-offset: 3px; }

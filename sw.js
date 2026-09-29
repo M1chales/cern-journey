@@ -1,5 +1,5 @@
 // Service worker: makes the app work offline after the first visit.
-const CACHE = 'cern-journey-v17';
+const CACHE = 'cern-journey-v18';
 const CORE = [
   './', 'index.html', 'css/style.css', 'manifest.webmanifest',
   'js/config.js', 'js/core.js', 'js/bg.js', 'js/intro.js', 'js/hero.js', 'js/scale.js',

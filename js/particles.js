@@ -146,9 +146,9 @@
   stripBtn.onclick = () => {
     const on = atom.classList.toggle('stripped');
     stripBtn.innerHTML = on
-      ? T({ en: 'Put it back', el: 'Βάλ\' το πίσω' })
-      : T({ en: 'Strip the electron', el: 'Αφαίρεσε το ηλεκτρόνιο' });
-    if (on) { App.toast({ en: 'A bare proton, ready for the accelerator.', el: 'Ένα γυμνό πρωτόνιο, έτοιμο για τον επιταχυντή.' }); App.vibrate(20); }
+      ? T({ en: 'Put them back', el: 'Βάλ\' τα πίσω' })
+      : T({ en: 'Strip the two electrons', el: 'Αφαίρεσε τα δύο ηλεκτρόνια' });
+    if (on) { App.toast({ en: 'H⁻ → p⁺: a bare proton, as at the PS Booster injection.', el: 'H⁻ → p⁺: ένα γυμνό πρωτόνιο, όπως στην είσοδο του PS Booster.' }); App.vibrate(20); }
   };
-  App.on('particles', { leave() { atom.classList.remove('stripped'); stripBtn.innerHTML = T({ en: 'Strip the electron', el: 'Αφαίρεσε το ηλεκτρόνιο' }); } });
+  App.on('particles', { leave() { atom.classList.remove('stripped'); stripBtn.innerHTML = T({ en: 'Strip the two electrons', el: 'Αφαίρεσε τα δύο ηλεκτρόνια' }); } });
 })();
