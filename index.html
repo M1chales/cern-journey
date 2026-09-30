@@ -287,6 +287,64 @@
 </section>
 
 <!-- =====================================================
+     04 SYNCHROCYCLOTRON (a bit of history)
+====================================================== -->
+<section class="chapter" data-id="sc" data-en="Where it all started" data-el="Εκεί που ξεκίνησαν όλα">
+  <div class="inner">
+    <header class="ch-head">
+      <p class="eyebrow rv"><t-en>Chapter</t-en><t-el>Κεφάλαιο</t-el> 03b · <t-en>A bit of history</t-en><t-el>Λίγη ιστορία</t-el></p>
+      <h2 class="rv" style="--i:1"><t-en>Where it all <span class="grad-text">started</span></t-en><t-el>Εκεί που <span class="grad-text">ξεκίνησαν όλα</span></t-el></h2>
+      <p class="lead rv" style="--i:2"><t-en>Before the LHC, and before any of the machines in the next chapter, CERN had exactly one accelerator: the <strong>Synchrocyclotron</strong>. It produced its first beam on 1 August 1957, three years after CERN was founded. On Saturday we stood right next to it.</t-en><t-el>Πριν από τον LHC, και πριν από όλα τα μηχανήματα του επόμενου κεφαλαίου, το CERN είχε έναν μόνο επιταχυντή: το <strong>Συγχροκύκλοτρο</strong>. Έβγαλε την πρώτη του δέσμη την 1η Αυγούστου 1957, τρία χρόνια μετά την ίδρυση του CERN. Το Σάββατο σταθήκαμε ακριβώς δίπλα του.</t-el></p>
+    </header>
+
+    <div class="sc-wrap rv" style="--i:3">
+      <div class="card sc-stage no-swipe">
+        <canvas id="scCanvas" aria-label="Synchrocyclotron simulation, seen from above"></canvas>
+      </div>
+      <div class="card sc-side">
+        <div class="tabs sc-tabs" id="scTabs">
+          <button data-mode="cyc"><t-en>Fixed frequency</t-en><t-el>Σταθερή συχνότητα</t-el></button>
+          <button data-mode="sync" class="active"><t-en>Frequency drops</t-en><t-el>Η συχνότητα πέφτει</t-el></button>
+        </div>
+        <div class="meters">
+          <div class="meter"><span><t-en>Energy</t-en><t-el>Ενέργεια</t-el></span><b id="scE">0 MeV</b></div>
+          <div class="meter"><span><t-en>Speed</t-en><t-el>Ταχύτητα</t-el></span><b id="scV">0 c</b></div>
+          <div class="meter"><span><t-en>Lorentz factor</t-en><t-el>Παράγοντας Lorentz</t-el> <i class="nocase">γ</i></span><b id="scG">1.00</b></div>
+          <div class="meter"><span><t-en>Radio frequency</t-en><t-el>Ραδιοσυχνότητα</t-el></span><b id="scF">29.6 MHz</b></div>
+        </div>
+        <p class="sc-status" id="scStatus" aria-live="polite"></p>
+        <p class="muted small"><t-en>Each bar at the bottom is one push from the electric field: green speeds the proton up, red slows it down. Switch between the two modes and watch what happens to the pushes.</t-en><t-el>Κάθε μπάρα κάτω είναι μία «ώθηση» από το ηλεκτρικό πεδίο: η πράσινη επιταχύνει το πρωτόνιο, η κόκκινη το φρενάρει. Άλλαξε ανάμεσα στους δύο τρόπους και δες τι παθαίνουν οι ωθήσεις.</t-el></p>
+        <p class="muted small"><t-en>Heavily sped up: the real machine gave each proton about 30,000 turns in 1.3 thousandths of a second, 360 times every second.</t-en><t-el>Πολύ επιταχυμένο: το πραγματικό μηχάνημα έδινε σε κάθε πρωτόνιο περίπου 30.000 στροφές σε 1,3 χιλιοστά του δευτερολέπτου, 360 φορές το δευτερόλεπτο.</t-el></p>
+      </div>
+    </div>
+
+    <div class="card insight rv">
+      <h3><t-en>So what does “synchro” mean?</t-en><t-el>Τι σημαίνει λοιπόν «σύγχρο»;</t-el></h3>
+      <p><t-en>A huge magnet bends the proton into a circle, and an electric field gives it a push every half turn. The faster it goes, the bigger its circle, so at low speeds every lap takes the same time and the pushes can come at a steady rhythm. That is a plain <strong>cyclotron</strong>. But as the proton gets closer to the speed of light, γ grows and each lap starts taking a little longer. With a fixed rhythm the pushes arrive late, then start slowing it down, and the proton gets stuck at a few tens of MeV.</t-en><t-el>Ένας τεράστιος μαγνήτης λυγίζει το πρωτόνιο σε κύκλο και ένα ηλεκτρικό πεδίο του δίνει μια ώθηση κάθε μισή στροφή. Όσο πιο γρήγορα πάει, τόσο μεγαλώνει ο κύκλος του, οπότε στις χαμηλές ταχύτητες κάθε γύρος διαρκεί τον ίδιο χρόνο και οι ωθήσεις μπορούν να έρχονται με σταθερό ρυθμό. Αυτό είναι ένα απλό <strong>κύκλοτρο</strong>. Όταν όμως το πρωτόνιο πλησιάζει την ταχύτητα του φωτός, το γ μεγαλώνει και κάθε γύρος αρχίζει να κρατάει λίγο περισσότερο. Με σταθερό ρυθμό οι ωθήσεις αργούν, μετά αρχίζουν να το φρενάρουν, και το πρωτόνιο κολλάει σε μερικές δεκάδες MeV.</t-el></p>
+      <p><t-en>The fix was to lower the frequency during every pulse, from about 30 MHz down to about 16.6 MHz, so the pushes stay in step all the way to <strong>600 MeV</strong>. The part that did it was the <strong>ROTCO</strong>, a 9-tonne rotating capacitor: the big round wheel in my photos, literally labelled “ROTCO 2”. Two were built, so one could be repaired while the other kept running.</t-en><t-el>Η λύση ήταν να χαμηλώνει η συχνότητα σε κάθε παλμό, από περίπου 30 MHz σε περίπου 16,6 MHz, ώστε οι ωθήσεις να μένουν συγχρονισμένες μέχρι τα <strong>600 MeV</strong>. Αυτό το έκανε το <strong>ROTCO</strong>, ένας περιστρεφόμενος πυκνωτής 9 τόνων: ο μεγάλος στρογγυλός τροχός στις φωτογραφίες μου, που γράφει κυριολεκτικά «ROTCO 2». Φτιάχτηκαν δύο, ώστε ο ένας να επισκευάζεται ενώ ο άλλος δούλευε.</t-el></p>
+    </div>
+
+    <div class="stat-grid sc-stats">
+      <div class="stat rv hl" style="--i:1"><b data-count="1957">1957</b><span><t-en>first beam, CERN's first accelerator</t-en><t-el>πρώτη δέσμη, ο πρώτος επιταχυντής του CERN</t-el></span></div>
+      <div class="stat rv" style="--i:2"><b data-count="600">600</b><span><t-en>MeV: the energy of its protons</t-en><t-el>MeV: η ενέργεια των πρωτονίων του</t-el></span></div>
+      <div class="stat rv" style="--i:3"><b data-count="2500">2,500</b><span><t-en>tonnes: the weight of its magnet</t-en><t-el>τόνοι: το βάρος του μαγνήτη του</t-el></span></div>
+      <div class="stat rv" style="--i:4"><b data-count="33">33</b><span><t-en>years in service, until December 1990</t-en><t-el>χρόνια λειτουργίας, μέχρι τον Δεκέμβριο του 1990</t-el></span></div>
+    </div>
+
+    <div class="grid-3 sc-facts">
+      <div class="card rv" style="--i:1"><h4><t-en>Its big discovery</t-en><t-el>Η μεγάλη του ανακάλυψη</t-el></h4><p class="small"><t-en>In 1960 it saw, for the first time, a pion decaying into an electron. The decay is extremely rare, but the theory of the weak force said it had to happen, and it did.</t-en><t-el>Το 1960 είδε για πρώτη φορά ένα πιόνιο να διασπάται σε ηλεκτρόνιο. Η διάσπαση είναι εξαιρετικά σπάνια, αλλά η θεωρία της ασθενούς δύναμης έλεγε ότι πρέπει να συμβαίνει, και συνέβαινε.</t-el></p></div>
+      <div class="card rv" style="--i:2"><h4><t-en>It started ISOLDE</t-en><t-el>Ξεκίνησε το ISOLDE</t-el></h4><p class="small"><t-en>From 1967 its protons fed ISOLDE, which makes rare radioactive nuclei. When the Synchrocyclotron shut down in 1990, ISOLDE moved to the PS Booster, and it is still running today.</t-en><t-el>Από το 1967 τα πρωτόνιά του τροφοδοτούσαν το ISOLDE, που φτιάχνει σπάνιους ραδιενεργούς πυρήνες. Όταν το Συγχροκύκλοτρο έκλεισε το 1990, το ISOLDE μεταφέρθηκε στον PS Booster και λειτουργεί μέχρι σήμερα.</t-el></p></div>
+      <div class="card rv" style="--i:3"><h4><t-en>Then vs now</t-en><t-el>Τότε και τώρα</t-el></h4><p class="small"><t-en>600 MeV in 1957. 6.8 TeV per beam in the LHC today: more than 11,000 times higher. Since 2013 the old machine is an exhibition, with a light show projected straight onto it.</t-en><t-el>600 MeV το 1957. 6,8 TeV ανά δέσμη στον LHC σήμερα: πάνω από 11.000 φορές περισσότερο. Από το 2013 το παλιό μηχάνημα είναι έκθεση, με ένα σόου φωτός που προβάλλεται πάνω του.</t-el></p></div>
+    </div>
+
+    <div class="sc-photos">
+      <figure class="rv" style="--i:1"><img loading="lazy" decoding="async" src="assets/photos/20260926_172220-sm.webp" srcset="assets/photos/20260926_172220-sm.webp 640w, assets/photos/20260926_172220.webp 1600w" sizes="(min-width: 800px) 50vw, 100vw" alt="The Synchrocyclotron with the ROTCO 2 wheel in front"><figcaption><t-en>The machine today. The round wheel with the “2” is ROTCO 2.</t-en><t-el>Το μηχάνημα σήμερα. Ο στρογγυλός τροχός με το «2» είναι ο ROTCO 2.</t-el></figcaption></figure>
+      <figure class="rv" style="--i:2"><img loading="lazy" decoding="async" src="assets/photos/20260926-wa0019-sm.webp" srcset="assets/photos/20260926-wa0019-sm.webp 640w, assets/photos/20260926-wa0019.webp 1280w" sizes="(min-width: 800px) 50vw, 100vw" alt="Light show projected onto the Synchrocyclotron"><figcaption><t-en>Lights off, show on: the projection traces the magnet and its coils.</t-en><t-el>Φώτα σβηστά, αρχίζει το σόου: οι προβολές «ζωγραφίζουν» τον μαγνήτη και τα πηνία του.</t-el></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
      05 ACCELERATORS
 ====================================================== -->
 <section class="chapter" data-id="accelerators" data-en="Journey of a proton" data-el="Το ταξίδι ενός πρωτονίου">
@@ -703,7 +761,7 @@
     <header class="ch-head">
       <p class="eyebrow rv"><t-en>Chapter</t-en><t-el>Κεφάλαιο</t-el> 10</p>
       <h2 class="rv" style="--i:1"><t-en>My weekend, <span class="grad-text">in photos</span></t-en><t-el>Το τριήμερο <span class="grad-text">σε φωτογραφίες</span></t-el></h2>
-      <p class="lead rv" style="--i:2"><t-en>Friday to Sunday: from the Science Gateway to 56 metres underground at ALICE, and a room full of cloud chambers glowing in the dark. Three days, packed.</t-en><t-el>Παρασκευή έως Κυριακή: από το Science Gateway μέχρι 56 μέτρα κάτω από τη γη στο ALICE, κι ένα δωμάτιο γεμάτο θαλάμους νεφώσεως να λάμπουν στο σκοτάδι. Τρεις μέρες, γεμάτες.</t-el></p>
+      <p class="lead rv" style="--i:2"><t-en>Friday to Sunday: from the Science Gateway and CERN's very first accelerator to 56 metres underground at ALICE, and a room full of cloud chambers glowing in the dark. Three days, packed.</t-en><t-el>Παρασκευή έως Κυριακή: από το Science Gateway και τον πρώτο επιταχυντή του CERN μέχρι 56 μέτρα κάτω από τη γη στο ALICE, κι ένα δωμάτιο γεμάτο θαλάμους νεφώσεως να λάμπουν στο σκοτάδι. Τρεις μέρες, γεμάτες.</t-el></p>
     </header>
     <div class="filters rv" style="--i:3" id="galFilters"></div>
     <div class="gallery" id="gallery"></div>
@@ -785,6 +843,7 @@
           <a href="https://home.cern/science/experiments/moedal-mapp" target="_blank" rel="noopener">MoEDAL-MAPP</a>,
           <a href="https://home.cern/science/experiments/faser" target="_blank" rel="noopener">FASER</a>,
           <a href="https://home.cern/science/experiments/sndlhc" target="_blank" rel="noopener">SND@LHC</a></li>
+        <li><a href="https://home.cern/science/accelerators/synchrocyclotron" target="_blank" rel="noopener">CERN · The Synchrocyclotron</a></li>
         <li><a href="https://visit.cern/science-gateway" target="_blank" rel="noopener">CERN · Science Gateway</a></li>
         <li><t-en>The presentations given to our group during the visit.</t-en><t-el>Οι παρουσιάσεις που έγιναν στην ομάδα μας κατά την επίσκεψη.</t-el></li>
       </ul>
@@ -810,6 +869,7 @@
 <script src="js/hero.js"></script>
 <script src="js/scale.js"></script>
 <script src="js/particles.js"></script>
+<script src="js/sc.js"></script>
 <script src="js/complex.js"></script>
 <script src="js/journey.js"></script>
 <script src="js/detector.js"></script>
