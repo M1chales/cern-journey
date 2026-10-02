@@ -1076,3 +1076,39 @@ input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 
 .sc-photos img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 .sc-photos figcaption { padding: 10px 14px; font-size: 13.5px; color: var(--muted); }
 @media (max-width: 420px) { .sc-tabs button { padding: 7px 10px; font-size: 12.5px; } }
+
+/* ---------- mobile layout fixes ---------- */
+.top-actions { margin-left: auto; }
+/* centre the home page safely: if it's taller than the screen, the top no longer gets cut off */
+.chapter-home.active { align-items: flex-start; }
+.chapter-home > .inner { margin-block: auto; }
+.fact-grid > * { min-width: 0; }
+@media (max-width: 640px) {
+  .fact { padding: 16px 14px; }
+  .fact b { font-size: 26px; }
+  .fact small { display: block; margin: 2px 0 0; font-size: 12px; }
+  .hero-actions { margin-bottom: 28px; }
+}
+@media (max-width: 380px) {
+  .brand span { display: inline; font-size: 13px; }
+}
+@media (max-width: 340px) {
+  .brand span { display: none; }
+}
+@media (max-width: 640px) {
+  /* size ruler: labels were overlapping */
+  .logbar-track .zone { font-size: 9.5px; letter-spacing: 0; }
+  .zone.acc { left: 6px; } .zone.mic { left: 37%; } .zone.eye { left: 76%; }
+  /* σ formula: wrap instead of hiding the answer off-screen */
+  .formula { white-space: normal; overflow-wrap: anywhere; line-height: 1.6; }
+  /* gallery: just the place/day label on the thumbnail; the full caption is in the lightbox */
+  .shot figcaption { font-size: 0; padding: 22px 10px 8px; }
+  .shot .tagline { font-size: 9.5px; margin: 0; letter-spacing: .06em; }
+}
+@media (max-width: 640px) {
+  /* scrollable strips: fade the edges so they read as "swipe me", not as cut off */
+  .cx-nav { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 10px, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(90deg, transparent 0, #000 10px, #000 calc(100% - 28px), transparent); padding-right: 24px; }
+}
+@media (max-width: 640px) {
+  .jr-steps { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); }
+}
